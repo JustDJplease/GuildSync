@@ -10,24 +10,30 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-class Getter {
+class ApiFetcher {
 
-    void updateLiveDataAsync(final Guild guild) {
-        guild.getServer().getScheduler().runTaskAsynchronously(guild, () -> {
+    private GuildSync guildSync;
+
+    ApiFetcher(GuildSync guildSync) {
+        this.guildSync = guildSync;
+    }
+
+    void updateLiveDataAsync() {
+        guildSync.getServer().getScheduler().runTaskAsynchronously(guildSync, () -> {
             JsonArray data = getLiveData();
             if (data == null) {
                 System.out.println("Server returned empty data. This may be an API / plugin issue. Have HoneyBlu look into this!");
                 return;
             }
-            guild.getServer().getScheduler().runTask(guild, () -> {
-                guild.data = data;
-                guild.forceUpdateAll();
+            guildSync.getServer().getScheduler().runTask(guildSync, () -> {
+                guildSync.data = data;
+                guildSync.forceUpdateAll();
             });
         });
     }
 
     private JsonArray getLiveData() {
-        String url = "https://api.wynncraft.com/public_api.php?action=guildStats&command=Imperial";
+        String url = guildSync.getConfig().getString("api-request-url");
         return getJson(url);
     }
 

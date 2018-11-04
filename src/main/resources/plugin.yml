@@ -3,7 +3,7 @@ version: ${project.version}
 description: ${project.description}
 
 authors: [NectarHoney, HoneyBlu]
-main: me.honeyblu.guildsync.Guild
+main: me.honeyblu.guildsync.GuildSync
 website: https://github.com/JustDJplease/
 softdepend: []
 

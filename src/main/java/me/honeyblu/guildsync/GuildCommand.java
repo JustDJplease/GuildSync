@@ -6,10 +6,10 @@ import org.bukkit.command.CommandSender;
 
 class GuildCommand implements CommandExecutor {
 
-    private final Guild guild;
+    private final GuildSync guildSync;
 
-    GuildCommand(Guild guild) {
-        this.guild = guild;
+    GuildCommand(GuildSync guildSync) {
+        this.guildSync = guildSync;
     }
 
     @Override
@@ -21,7 +21,7 @@ class GuildCommand implements CommandExecutor {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("update")) {
                 commandSender.sendMessage("§aRequesting synchronisation... One moment please!");
-                guild.getter.updateLiveDataAsync(guild);
+                guildSync.apiFetcher.updateLiveDataAsync();
                 return true;
             }
         }

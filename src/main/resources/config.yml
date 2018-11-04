@@ -1,0 +1,34 @@
+# GuildSync Sync plugin by Floris (NectarHoney & HoneyBlu)
+
+# URL to request data from. Please leave this untouched.
+api-request-url: "https://api.wynncraft.com/public_api.php?action=guildStats&command=Imperial"
+
+# Ranks:
+# "Chat" regulates the formatting of the players' chat. {player} & {message} placeholders exist.
+# "permission-group" regulates which (PEX) rank these players get.
+rank:
+  UNRANKED:
+    chat: "&6[&eTourist&6] {player}&8: &7{message}"
+    permission-group: "tourist"
+  RECRUIT:
+    chat: "&3[&bRecruit&3] {player}&8: &7{message}"
+    permission-group: "recruit"
+  RECRUITER:
+    chat: "&3[&bRecruiter&3] {player}&8: &7{message}"
+    permission-group: "recruiter"
+  CAPTAIN:
+    chat: "&3[&bCaptain&3] {player}&8: &7{message}"
+    permission-group: "captain"
+  CHIEF:
+    chat: "&3[&bChief&3] {player}&8: &7{message}"
+    permission-group: "chief"
+  OWNER:
+    chat: "&4[&cEmpress&4] {player}&8: &7{message}"
+    permission-group: "owner"
+
+# Overrides:
+# Players (player names) on this list will have a custom chat & rank.
+overrides:
+  HoneyBlu:
+    chat: "&2[&aArchitect&2] {player}&8: &7{message}"
+    permission-group: "owner"
