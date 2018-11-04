@@ -1,0 +1,14 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+
+authors: [NectarHoney, HoneyBlu]
+main: me.honeyblu.guildsync.Guild
+website: https://github.com/JustDJplease/
+softdepend: []
+
+api-version: 1.13
+
+commands:
+  guild:
+    aliases: [g]
