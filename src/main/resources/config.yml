@@ -61,5 +61,5 @@ gamerank:
 # Players (player names) on this list will have a custom chat & rank.
 overrides:
   HoneyBlu:
-    chat: "&2[&aArchitect&2] {rank} {player}&8: &7{message}"
+    chat: "&2[&aArchitect&2] {rank}{player}&8: &7{message}"
     permission-group: "owner"
