@@ -11,22 +11,22 @@ api-request-player-url: "https://api.wynncraft.com/public_api.php?action=playerS
 # "permission-group" regulates which (PEX) rank these players get.
 rank:
   UNRANKED:
-    chat: "&6[&eTourist&6] {rank} {player}&8: &7{message}"
+    chat: "&6[&eTourist&6] {rank}{player}&8: &7{message}"
     permission-group: "tourist"
   RECRUIT:
-    chat: "&3[&bRecruit&3] {rank} {player}&8: &7{message}"
+    chat: "&3[&bRecruit&3] {rank}{player}&8: &7{message}"
     permission-group: "recruit"
   RECRUITER:
-    chat: "&3[&bRecruiter&3] {rank} {player}&8: &7{message}"
+    chat: "&3[&bRecruiter&3] {rank}{player}&8: &7{message}"
     permission-group: "recruiter"
   CAPTAIN:
-    chat: "&3[&bCaptain&3] {rank} {player}&8: &7{message}"
+    chat: "&3[&bCaptain&3] {rank}{player}&8: &7{message}"
     permission-group: "captain"
   CHIEF:
-    chat: "&3[&bChief&3] {rank} {player}&8: &7{message}"
+    chat: "&3[&bChief&3] {rank}{player}&8: &7{message}"
     permission-group: "chief"
   OWNER:
-    chat: "&4[&cEmpress&4] {rank} {player}&8: &7{message}"
+    chat: "&4[&cEmpress&4] {rank}{player}&8: &7{message}"
     permission-group: "owner"
 
 # Game ranks:

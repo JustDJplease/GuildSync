@@ -31,6 +31,13 @@ public class GuildSync extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         getServer().getPluginManager().registerEvents(new LoginListener(this), this);
         getCommand("guild").setExecutor(new GuildCommand(this));
+        forceUpdateAllPlayers();
+    }
+
+    private void forceUpdateAllPlayers() {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            requestUpdatePlayer(p.getName());
+        }
     }
 
     @Override
@@ -105,6 +112,7 @@ public class GuildSync extends JavaPlugin {
     void updatePlayer(String name, JsonObject data) {
         unloadPlayer(name);
         WynncraftPlayer wynncraftPlayer = new WynncraftPlayer(this, data);
+        getLogger().info("Updated Wynncraft rank for player " + name + ".");
         playerData.put(name, wynncraftPlayer);
     }
 

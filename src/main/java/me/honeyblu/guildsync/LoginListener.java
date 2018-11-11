@@ -22,6 +22,7 @@ class LoginListener implements Listener {
         Player player = event.getPlayer();
         String name = player.getName();
         PermissionUser permissionUser = PermissionsEx.getUser(player);
+        guildSync.requestUpdatePlayer(name);
 
         if (guildSync.data == null || guildSync.chatRanks.isEmpty()) {
             player.sendMessage("§4Still fetching your guild rank... One moment!");
@@ -46,7 +47,6 @@ class LoginListener implements Listener {
         String rank = guildSync.chatRanks.get(name);
         clearGroups(permissionUser);
         permissionUser.addGroup(getGroupName(rank));
-        guildSync.requestUpdatePlayer(name);
     }
 
     @EventHandler

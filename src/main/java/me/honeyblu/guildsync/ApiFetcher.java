@@ -22,7 +22,7 @@ class ApiFetcher {
         guildSync.getServer().getScheduler().runTaskAsynchronously(guildSync, () -> {
             JsonObject data = getLivePlayerData(playername);
             if (data == null) {
-                System.out.println("Server returned empty data. This may be an API / plugin issue. Have HoneyBlu look into this!");
+                guildSync.getLogger().severe("Server returned empty data. This may be an API / plugin issue. Have HoneyBlu look into this!");
                 return;
             }
             guildSync.getServer().getScheduler().runTask(guildSync, () -> guildSync.updatePlayer(playername, data));
@@ -33,7 +33,7 @@ class ApiFetcher {
         guildSync.getServer().getScheduler().runTaskAsynchronously(guildSync, () -> {
             JsonArray data = getLiveGuildData();
             if (data == null) {
-                System.out.println("Server returned empty data. This may be an API / plugin issue. Have HoneyBlu look into this!");
+                guildSync.getLogger().severe("Server returned empty data. This may be an API / plugin issue. Have HoneyBlu look into this!");
                 return;
             }
             guildSync.getServer().getScheduler().runTask(guildSync, () -> {
@@ -58,7 +58,7 @@ class ApiFetcher {
             String URL = http(url);
             return new Gson().fromJson(URL, JsonObject.class);
         } catch (IOException ex) {
-            System.out.println("Server returned non JSON data. This may be an API / plugin issue. Have HoneyBlu look into this!");
+            guildSync.getLogger().severe("Server returned non JSON data. This may be an API / plugin issue. Have HoneyBlu look into this!");
             ex.printStackTrace();
             return null;
         }
@@ -70,7 +70,7 @@ class ApiFetcher {
             JsonObject jsonObject = new Gson().fromJson(URL, JsonObject.class);
             return jsonObject.get("members").getAsJsonArray();
         } catch (IOException ex) {
-            System.out.println("Server returned non JSON data. This may be an API / plugin issue. Have HoneyBlu look into this!");
+            guildSync.getLogger().severe("Server returned non JSON data. This may be an API / plugin issue. Have HoneyBlu look into this!");
             ex.printStackTrace();
             return null;
         }
