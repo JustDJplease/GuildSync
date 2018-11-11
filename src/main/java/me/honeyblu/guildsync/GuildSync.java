@@ -25,6 +25,7 @@ public class GuildSync extends JavaPlugin {
 
         apiFetcher = new ApiFetcher(this);
         chatRanks = new HashMap<>();
+        playerData = new HashMap<>();
         startRunner();
 
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
@@ -38,6 +39,8 @@ public class GuildSync extends JavaPlugin {
         apiFetcher = null;
         chatRanks.clear();
         chatRanks = null;
+        playerData.clear();
+        playerData = null;
     }
 
     private void startRunner() {
