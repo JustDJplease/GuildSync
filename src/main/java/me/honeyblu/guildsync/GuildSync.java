@@ -15,7 +15,8 @@ import java.util.HashMap;
 public class GuildSync extends JavaPlugin {
 
     JsonArray data;
-    HashMap<String, String> chatPrefix;
+    HashMap<String, String> chatRanks;
+    HashMap<String, WynncraftPlayer> playerData;
     ApiFetcher apiFetcher;
 
     @Override
@@ -23,8 +24,8 @@ public class GuildSync extends JavaPlugin {
         saveDefaultConfig();
 
         apiFetcher = new ApiFetcher(this);
-        chatPrefix = new HashMap<>();
-        startRunner(this);
+        chatRanks = new HashMap<>();
+        startRunner();
 
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         getServer().getPluginManager().registerEvents(new LoginListener(this), this);
@@ -35,23 +36,23 @@ public class GuildSync extends JavaPlugin {
     public void onDisable() {
         data = null;
         apiFetcher = null;
-        chatPrefix.clear();
-        chatPrefix = null;
+        chatRanks.clear();
+        chatRanks = null;
     }
 
-    private void startRunner(GuildSync guildSync) {
-        getServer().getScheduler().runTaskTimer(this, () -> apiFetcher.updateLiveDataAsync(), 20L, 12000L);
+    private void startRunner() {
+        getServer().getScheduler().runTaskTimer(this, () -> apiFetcher.updateLiveGuildDataAsync(), 20L, 12000L);
     }
 
     void forceUpdateAll() {
-        chatPrefix.clear();
+        chatRanks.clear();
 
         for (int n = 0; n < data.size(); n++) {
             JsonElement entry = data.get(n);
             JsonObject object = entry.getAsJsonObject();
             String name = object.get("name").getAsString();
             String rank = object.get("rank").getAsString();
-            chatPrefix.put(name, rank);
+            chatRanks.put(name, rank);
         }
 
         getLogger().info("Synchronised with the Wynncraft Live Server! (Refreshed " + data.size() + " ranks)");
@@ -64,7 +65,7 @@ public class GuildSync extends JavaPlugin {
             String name = p.getName();
             PermissionUser permissionUser = PermissionsEx.getUser(p);
 
-            if (data == null || chatPrefix.isEmpty()) {
+            if (data == null || chatRanks.isEmpty()) {
                 clearGroups(permissionUser);
                 permissionUser.addGroup(getGroupName("UNRANKED"));
                 return;
@@ -76,13 +77,13 @@ public class GuildSync extends JavaPlugin {
                 return;
             }
 
-            if (!chatPrefix.containsKey(name)) {
+            if (!chatRanks.containsKey(name)) {
                 clearGroups(permissionUser);
                 permissionUser.addGroup(getGroupName("UNRANKED"));
                 return;
             }
 
-            String rank = chatPrefix.get(name);
+            String rank = chatRanks.get(name);
             clearGroups(permissionUser);
             permissionUser.addGroup(getGroupName(rank));
         }
@@ -96,5 +97,19 @@ public class GuildSync extends JavaPlugin {
 
     private String getGroupName(String s) {
         return getConfig().getString("rank." + s + ".permission-group");
+    }
+
+    void updatePlayer(String name, JsonObject data) {
+        unloadPlayer(name);
+        WynncraftPlayer wynncraftPlayer = new WynncraftPlayer(this, data);
+        playerData.put(name, wynncraftPlayer);
+    }
+
+    void requestUpdatePlayer(String name) {
+        apiFetcher.updateLivePlayerDataAsync(name);
+    }
+
+    void unloadPlayer(String name) {
+        playerData.remove(name);
     }
 }

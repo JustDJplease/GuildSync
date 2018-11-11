@@ -2,33 +2,64 @@
 
 # URL to request data from. Please leave this untouched.
 api-request-url: "https://api.wynncraft.com/public_api.php?action=guildStats&command=Imperial"
+api-request-player-url: "https://api.wynncraft.com/public_api.php?action=playerStats&command={playername}"
 
-# Ranks:
-# "Chat" regulates the formatting of the players' chat. {player} & {message} placeholders exist.
+# Guild ranks:
+# "Chat" regulates the formatting of the players' chat.
+#        {player} & {message} placeholders exist.
+#        The {rank} placeholder is replaced with the real Wynncraft rank of that player.
 # "permission-group" regulates which (PEX) rank these players get.
 rank:
   UNRANKED:
-    chat: "&6[&eTourist&6] {player}&8: &7{message}"
+    chat: "&6[&eTourist&6] {rank} {player}&8: &7{message}"
     permission-group: "tourist"
   RECRUIT:
-    chat: "&3[&bRecruit&3] {player}&8: &7{message}"
+    chat: "&3[&bRecruit&3] {rank} {player}&8: &7{message}"
     permission-group: "recruit"
   RECRUITER:
-    chat: "&3[&bRecruiter&3] {player}&8: &7{message}"
+    chat: "&3[&bRecruiter&3] {rank} {player}&8: &7{message}"
     permission-group: "recruiter"
   CAPTAIN:
-    chat: "&3[&bCaptain&3] {player}&8: &7{message}"
+    chat: "&3[&bCaptain&3] {rank} {player}&8: &7{message}"
     permission-group: "captain"
   CHIEF:
-    chat: "&3[&bChief&3] {player}&8: &7{message}"
+    chat: "&3[&bChief&3] {rank} {player}&8: &7{message}"
     permission-group: "chief"
   OWNER:
-    chat: "&4[&cEmpress&4] {player}&8: &7{message}"
+    chat: "&4[&cEmpress&4] {rank} {player}&8: &7{message}"
     permission-group: "owner"
+
+# Game ranks:
+# The "prefix" replaces the {rank} variable in the aforementioned chat.
+gamerank:
+  PLAYER:
+    prefix: "&7"
+  VETERAN:
+    prefix: "&5[&dVet&5] "
+  VIP:
+    prefix: "&2[&aVIP&2] "
+  VIP+:
+    prefix: "&b[&3VIP+&b] "
+  MEDIA:
+    prefix: "&c[&fMedia&c] "
+  HERO:
+    prefix: "&5[&dHero&5] "
+  BUILDER:
+    prefix: "&3[&bBuild&3] "
+  HYBRID:
+    prefix: "&3[&bHybrid&3] "
+  CMD:
+    prefix: "&3[&bCMD&3] "
+  GAME_MASTER:
+    prefix: "&3[&bGM&3] "
+  MODERATOR:
+    prefix: "&6[&eMod&6] "
+  ADMINISTRATOR:
+    prefix: "&4[&cAdmin&4] "
 
 # Overrides:
 # Players (player names) on this list will have a custom chat & rank.
 overrides:
   HoneyBlu:
-    chat: "&2[&aArchitect&2] {player}&8: &7{message}"
+    chat: "&2[&aArchitect&2] {rank} {player}&8: &7{message}"
     permission-group: "owner"

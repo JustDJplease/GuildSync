@@ -18,9 +18,20 @@ class ApiFetcher {
         this.guildSync = guildSync;
     }
 
-    void updateLiveDataAsync() {
+    void updateLivePlayerDataAsync(final String playername) {
         guildSync.getServer().getScheduler().runTaskAsynchronously(guildSync, () -> {
-            JsonArray data = getLiveData();
+            JsonObject data = getLivePlayerData(playername);
+            if (data == null) {
+                System.out.println("Server returned empty data. This may be an API / plugin issue. Have HoneyBlu look into this!");
+                return;
+            }
+            guildSync.getServer().getScheduler().runTask(guildSync, () -> guildSync.updatePlayer(playername, data));
+        });
+    }
+
+    void updateLiveGuildDataAsync() {
+        guildSync.getServer().getScheduler().runTaskAsynchronously(guildSync, () -> {
+            JsonArray data = getLiveGuildData();
             if (data == null) {
                 System.out.println("Server returned empty data. This may be an API / plugin issue. Have HoneyBlu look into this!");
                 return;
@@ -32,9 +43,25 @@ class ApiFetcher {
         });
     }
 
-    private JsonArray getLiveData() {
+    private JsonArray getLiveGuildData() {
         String url = guildSync.getConfig().getString("api-request-url");
         return getJson(url);
+    }
+
+    private JsonObject getLivePlayerData(String playername) {
+        String url = guildSync.getConfig().getString("api-request-player-url").replace("{playername}", playername);
+        return getFullJson(url);
+    }
+
+    private JsonObject getFullJson(String url) {
+        try {
+            String URL = http(url);
+            return new Gson().fromJson(URL, JsonObject.class);
+        } catch (IOException ex) {
+            System.out.println("Server returned non JSON data. This may be an API / plugin issue. Have HoneyBlu look into this!");
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     private JsonArray getJson(String url) {

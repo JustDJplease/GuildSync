@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import ru.tehkode.permissions.PermissionGroup;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
@@ -22,8 +23,8 @@ class LoginListener implements Listener {
         String name = player.getName();
         PermissionUser permissionUser = PermissionsEx.getUser(player);
 
-        if (guildSync.data == null || guildSync.chatPrefix.isEmpty()) {
-            player.sendMessage("§4Still fetching your Wynncraft rank... One moment!");
+        if (guildSync.data == null || guildSync.chatRanks.isEmpty()) {
+            player.sendMessage("§4Still fetching your guild rank... One moment!");
             player.sendMessage("§4Your permissions will be updated as soon as possible.");
             clearGroups(permissionUser);
             permissionUser.addGroup(getGroupName("UNRANKED"));
@@ -36,15 +37,23 @@ class LoginListener implements Listener {
             return;
         }
 
-        if (!guildSync.chatPrefix.containsKey(name)) {
+        if (!guildSync.chatRanks.containsKey(name)) {
             clearGroups(permissionUser);
             permissionUser.addGroup(getGroupName("UNRANKED"));
             return;
         }
 
-        String rank = guildSync.chatPrefix.get(name);
+        String rank = guildSync.chatRanks.get(name);
         clearGroups(permissionUser);
         permissionUser.addGroup(getGroupName(rank));
+        guildSync.requestUpdatePlayer(name);
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event){
+        Player player = event.getPlayer();
+        String name = player.getName();
+        guildSync.unloadPlayer(name);
     }
 
     private void clearGroups(PermissionUser permissionUser) {

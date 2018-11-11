@@ -21,7 +21,7 @@ class GuildCommand implements CommandExecutor {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("update")) {
                 commandSender.sendMessage("§aRequesting synchronisation... One moment please!");
-                guildSync.apiFetcher.updateLiveDataAsync();
+                guildSync.apiFetcher.updateLiveGuildDataAsync();
                 return true;
             }
         }
